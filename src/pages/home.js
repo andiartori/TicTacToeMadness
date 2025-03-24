@@ -16,6 +16,9 @@ function Home() {
 
 	const [isXturn, setIsXturn] = useState(true);
 	const [gameOver, setGameOver] = useState(true);
+	const [winner, setWinner] = useState("");
+	const [reset, isReset] = useState(true);
+	const [draw, setDraw] = useState(false);
 
 	//make a function to repllace the "" into X or O based on index
 
@@ -99,31 +102,76 @@ function Home() {
 	//diagonal 1, 5, 9
 	function winncerCheck() {
 		if (
-			box1 === "" ||
-			box2 === "" ||
-			box3 === "" ||
-			box4 === "" ||
-			box5 === "" ||
-			box6 === "" ||
-			box7 === "" ||
-			box8 === "" ||
+			box1 === "" &&
+			box2 === "" &&
+			box3 === "" &&
+			box4 === "" &&
+			box5 === "" &&
+			box6 === "" &&
+			box7 === "" &&
+			box8 === "" &&
 			box9 == ""
 		) {
 			setGameOver(false);
+		} else if (box1 !== "" && box1 === box4 && box1 === box7) {
+			setGameOver(true);
+			whoIsWinner();
+		} else if (box2 !== "" && box2 === box5 && box2 === box8) {
+			setGameOver(true);
+			whoIsWinner();
+		} else if (box3 !== "" && box3 === box6 && box3 === box9) {
+			setGameOver(true);
+			whoIsWinner();
 		} else if (box1 !== "" && box1 === box2 && box1 === box3) {
 			setGameOver(true);
-		} else if (box1 !== "" && box2 === box5 && box2 === box8) {
+			whoIsWinner();
+		} else if (box4 !== "" && box4 === box5 && box4 === box6) {
 			setGameOver(true);
-		} else if (box1 !== "" && box3 === box6 && box3 === box9) {
+			whoIsWinner();
+		} else if (box7 !== "" && box7 === box8 && box7 === box9) {
 			setGameOver(true);
-		} else if (box1 !== "" && box1 === box2 && box1 === box3) {
-			setGameOver(true);
-		} else if (box1 !== "" && box4 === box5 && box4 === box6) {
-			setGameOver(true);
-		} else if (box1 !== "" && box7 === box8 && box7 === box9) {
-			setGameOver(true);
+			whoIsWinner();
 		} else if (box1 !== "" && box1 === box5 && box1 === box9) {
 			setGameOver(true);
+			whoIsWinner();
+		} else if (box3 !== "" && box3 === box5 && box7 === box3) {
+			setGameOver(true);
+			whoIsWinner();
+		} else if (
+			box1 !== "" &&
+			box2 !== "" &&
+			box3 !== "" &&
+			box4 !== "" &&
+			box5 !== "" &&
+			box6 !== "" &&
+			box7 !== "" &&
+			box8 !== "" &&
+			box9 !== "" &&
+			setGameOver(false)
+		) {
+			setGameOver(true);
+			setDraw(true);
+		}
+	}
+
+	function whoIsWinner() {
+		if (isXturn) {
+			setWinner("O");
+		} else {
+			setWinner("X");
+		}
+	}
+	function resetGame() {
+		if (reset) {
+			setBox1("");
+			setBox2("");
+			setBox3("");
+			setBox4("");
+			setBox5("");
+			setBox6("");
+			setBox7("");
+			setBox8("");
+			setBox9("");
 		}
 	}
 
@@ -132,9 +180,23 @@ function Home() {
 	}, [box1, box2, box3, box4, box5, box6, box7, box8, box9]);
 
 	//put winner
+	if (gameOver && draw) {
+		return (
+			<div>
+				DRAW
+				<div onClick={() => resetGame()}>Reset game</div>
+			</div>
+		);
+	}
 
-	if (gameOver) {
-		return <div>Game is over</div>;
+	if (gameOver && !draw) {
+		return (
+			<div>
+				Game is over the winner is
+				{winner}
+				<div onClick={() => resetGame()}>Reset game</div>
+			</div>
+		);
 	} else {
 		return (
 			<>

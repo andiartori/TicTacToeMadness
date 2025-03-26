@@ -8,6 +8,22 @@ function Decent() {
 	const [isXturn, setIsXTurn] = useState(true);
 	const [gameOver, setGameOver] = useState(false);
 	const [winner, setWinner] = useState("");
+	const [reset, setReset] = useState(false);
+
+	function resetGame() {
+		setReset(true);
+		//take all the box
+		//make new, empty it,
+		//set values
+
+		if (reset) {
+			const resettedBox = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+			setBox(resettedBox);
+			setReset(false);
+			setGameOver(false);
+			setWinner("");
+		}
+	}
 
 	function takeTurn(index) {
 		//to make a change on single element, you cant just change one element in array only.
@@ -31,14 +47,14 @@ function Decent() {
 
 	//set Winning condition
 	// a wiining condition will be met if
-	//same value found on 0 1 3
-	//4 5 6
-	// 7 8 9
+	//same value found on 0 1 2
+	//3 4 5
+	// 6 7 8
+	// 0 3 6
 	// 1 4 7
 	// 2 5 8
-	// 3 6 9
-	// 1 5 9
-	// 3 5 7
+	// 0 4 8
+	// 2 4 6
 
 	function whoWinner() {
 		if (isXturn) {
@@ -58,19 +74,19 @@ function Decent() {
 		} else if (box[6] === box[7] && box[6] === box[8] && box[6] != "") {
 			setGameOver(true);
 			whoWinner();
-		} else if (box[0] === box[3] && box[0] === box[7] && box[0] != "") {
+		} else if (box[0] === box[3] && box[0] === box[6] && box[0] != "") {
 			setGameOver(true);
 			whoWinner();
-		} else if (box[0] === box[1] && box[1] === box[2] && box[1] != "") {
+		} else if (box[1] === box[4] && box[1] === box[7] && box[1] != "") {
 			setGameOver(true);
 			whoWinner();
-		} else if (box[0] === box[1] && box[1] === box[2] && box[1] != "") {
+		} else if (box[2] === box[5] && box[2] === box[8] && box[2] != "") {
 			setGameOver(true);
 			whoWinner();
-		} else if (box[0] === box[1] && box[1] === box[2] && box[1] != "") {
+		} else if (box[0] === box[4] && box[0] === box[8] && box[0] != "") {
 			setGameOver(true);
 			whoWinner();
-		} else if (box[0] === box[1] && box[1] === box[2] && box[1] != "") {
+		} else if (box[2] === box[4] && box[2] === box[6] && box[2] != "") {
 			setGameOver(true);
 			whoWinner();
 		}
@@ -78,11 +94,16 @@ function Decent() {
 	}
 
 	useEffect(() => {
-		setWinner();
-	}, [box]);
+		gameOverCondition();
+	}, [box, reset]);
 
 	if (gameOver === true) {
-		return <div>Game is Over</div>;
+		return (
+			<div>
+				Game is Over. winner is : {winner} reseting game ?{" "}
+				<div onClick={() => resetGame()}>Reset</div>
+			</div>
+		);
 	} else {
 		return (
 			<div className="gameboard">

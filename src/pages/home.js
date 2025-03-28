@@ -100,7 +100,7 @@ function Home() {
 	//inLine down 7, 8, 9
 
 	//diagonal 1, 5, 9
-	function winncerCheck() {
+	function gameOverCheck() {
 		if (
 			box1 === "" &&
 			box2 === "" &&
@@ -176,7 +176,7 @@ function Home() {
 	}
 
 	useEffect(() => {
-		winncerCheck();
+		gameOverCheck();
 	}, [box1, box2, box3, box4, box5, box6, box7, box8, box9]);
 
 	//put winner
